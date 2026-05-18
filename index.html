@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-4-6 Breathing Exercise</title>
+    <meta name="description" content="Guided breathing exercise app - 4 seconds breathe in, 4 seconds hold, 6 seconds breathe out. 10 cycles, works on all devices.">
+    <meta name="theme-color" content="#2196f3">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .timer-display {
+            font-size: 64px;
+            font-weight: 700;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .breathing-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: #e3f2fd;
+            border: 3px solid #2196f3;
+        }
+        
+        .breathing-circle.in {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 10px rgba(33, 150, 243, 0.1);
+        }
+        
+        .breathing-circle.hold {
+            background: #fff8e1;
+            border-color: #fbc02d;
+            box-shadow: 0 0 0 10px rgba(251, 192, 45, 0.1);
+        }
+        
+        .breathing-circle.out {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 10px rgba(76, 175, 80, 0.1);
+        }
+        
+        .phase-label {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .phase-time {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        #startBtn {
+            background: #4CAF50;
+            color: white;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        #startBtn:active {
+            transform: scale(0.98);
+        }
+        
+        #startBtn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        #stopBtn {
+            background: #f44336;
+            color: white;
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        #stopBtn.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+        
+        #stopBtn:active {
+            transform: scale(0.98);
+        }
+        
+        .pattern-info {
+            background: #f0f4ff;
+            border-left: 4px solid #5c6bc0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .pattern-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #5c6bc0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            font-size: 12px;
+        }
+        
+        .pattern-item {
+            text-align: center;
+        }
+        
+        .pattern-time {
+            font-size: 18px;
+            font-weight: 700;
+            color: #5c6bc0;
+            margin-bottom: 3px;
+        }
+        
+        .pattern-label {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        .message {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            padding: 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .github-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        
+        .github-link a {
+            color: #5c6bc0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .timer-display {
+                font-size: 48px;
+            }
+            
+            .breathing-circle {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>4-4-6 Breathing</h1>
+        <p class="subtitle">Guided exercise for calm and focus</p>
+        
+        <div class="timer-display" id="display">00:00</div>
+        
+        <div class="breathing-circle in" id="circle">
+            <div class="phase-label" id="phase">Ready</div>
+            <div class="phase-time" id="phaseTime">Press start</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Cycle</div>
+                <div class="stat-value" id="cycleCount">0/10</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Time</div>
+                <div class="stat-value" id="totalTime">2:20</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" id="status">Ready</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn" onclick="startBreathing()">Start Exercise</button>
+            <button id="stopBtn" onclick="stopBreathing()">Stop</button>
+        </div>
+        
+        <div class="pattern-info">
+            <div class="pattern-title">Breathing pattern</div>
+            <div class="pattern-grid">
+                <div class="pattern-item">
+                    <div class="pattern-time">4s</div>
+                    <div class="pattern-label">Breathe in</div>
+                </div>
+                <div class="pattern-item">
+                    <div class="pattern-time">4s</div>
+                    <div class="pattern-label">Hold</div>
+                </div>
+                <div class="pattern-item">
+                    <div class="pattern-time">6s</div>
+                    <div class="pattern-label">Breathe out</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="github-link">
+            <a href="https://github.com/yourusername/breathing-app" target="_blank">View on GitHub</a> • 
+            <a href="https://github.com/yourusername/breathing-app#readme" target="_blank">Instructions</a>
+        </div>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let cycleCount = 0;
+        let totalSeconds = 0;
+        let currentPhaseSeconds = 0;
+        const totalCycles = 10;
+        let currentPhase = null;
+        let timerInterval = null;
+
+        const phases = ['in', 'hold', 'out'];
+        const phaseDurations = { in: 4, hold: 4, out: 6 };
+        const phaseNames = { in: 'Breathe In', hold: 'Hold', out: 'Breathe Out' };
+        const statusNames = { in: 'Inhale', hold: 'Holding', out: 'Exhale' };
+
+        function startBreathing() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            cycleCount = 0;
+            totalSeconds = 0;
+            currentPhaseSeconds = 0;
+            currentPhase = 'in';
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').classList.add('active');
+            
+            runBreathingLoop();
+        }
+
+        function stopBreathing() {
+            if (!isRunning) return;
+            
+            isRunning = false;
+            clearInterval(timerInterval);
+            
+            cycleCount = 0;
+            totalSeconds = 0;
+            currentPhaseSeconds = 0;
+            currentPhase = null;
+            
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').classList.remove('active');
+            
+            document.getElementById('display').textContent = '00:00';
+            document.getElementById('phase').textContent = 'Stopped';
+            document.getElementById('phaseTime').textContent = 'Press start to resume';
+            document.getElementById('circle').className = 'breathing-circle in';
+            document.getElementById('cycleCount').textContent = '0/10';
+            document.getElementById('status').textContent = 'Ready';
+            document.getElementById('message').textContent = '';
+        }
+
+        function runBreathingLoop() {
+            if (!isRunning) return;
+            
+            if (cycleCount >= totalCycles) {
+                isRunning = false;
+                clearInterval(timerInterval);
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').classList.remove('active');
+                
+                document.getElementById('phase').textContent = '✓ Complete!';
+                document.getElementById('phaseTime').textContent = 'Great job!';
+                document.getElementById('status').textContent = 'Done';
+                document.getElementById('message').textContent = 'Breathing exercise completed! You did 10 cycles.';
+                return;
+            }
+
+            currentPhaseSeconds++;
+            totalSeconds++;
+            
+            updateDisplay();
+            
+            const phaseDuration = phaseDurations[currentPhase];
+            
+            if (currentPhaseSeconds >= phaseDuration) {
+                const phaseIndex = phases.indexOf(currentPhase);
+                const nextPhaseIndex = (phaseIndex + 1) % phases.length;
+                
+                if (nextPhaseIndex === 0) {
+                    cycleCount++;
+                    document.getElementById('cycleCount').textContent = cycleCount + '/10';
+                }
+                
+                currentPhase = phases[nextPhaseIndex];
+                currentPhaseSeconds = 0;
+            }
+            
+            timerInterval = setTimeout(runBreathingLoop, 1000);
+        }
+
+        function updateDisplay() {
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            document.getElementById('display').textContent = 
+                String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+            
+            const phaseName = phaseNames[currentPhase];
+            document.getElementById('phase').textContent = phaseName;
+            document.getElementById('phaseTime').textContent = 
+                currentPhaseSeconds + 's / ' + phaseDurations[currentPhase] + 's';
+            document.getElementById('status').textContent = statusNames[currentPhase];
+            
+            document.getElementById('circle').className = 'breathing-circle ' + currentPhase;
+        }
+    </script>
+</body>
+</html>
