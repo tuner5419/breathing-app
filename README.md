@@ -88,106 +88,6 @@ breathing-app/
 └── LICENSE            # MIT License
 ```
 
-## 💾 How to Host on GitHub Pages
-
-1. **Create a GitHub account** (if you don't have one)
-
-2. **Create a new repository**:
-   - Click "New" on GitHub
-   - Name it `breathing-app`
-   - Make it Public
-   - Don't initialize with README (we'll add it)
-   - Click "Create repository"
-
-3. **Upload the files**:
-   - Click "Add file" → "Upload files"
-   - Drag `index.html` and `README.md` into the upload area
-   - Click "Commit changes"
-
-4. **Enable GitHub Pages**:
-   - Go to repository **Settings** → **Pages**
-   - Under "Build and deployment", select:
-     - Source: **Deploy from a branch**
-     - Branch: **main** (or **master**)
-   - Click **Save**
-
-5. **Wait 2-3 minutes** for it to deploy
-
-6. **Visit your site**:
-   - `https://yourusername.github.io/breathing-app`
-   - Share this link with anyone!
-
-## 🖇️ Share Your App
-
-- **Link**: `https://yourusername.github.io/breathing-app`
-- **QR Code**: Generate one pointing to your link
-- **Social Media**: "Try my breathing app!"
-- **Add to Contacts**: Send the link via text/email
-
-##  Usage Tips
-
-### Best Results
-- Find a quiet, comfortable place
-- Sit upright or lie down
-- Focus on the on-screen prompts
-- Practice daily for best benefits
-- Don't force or strain your breathing
-
-### Avoid
-- Practicing right after meals
-- Intense exercise before breathing
-- Holding breath longer than shown
-- Using during high stress (consult doctor)
-
-## 🔧 Customization
-
-Want to modify the app? Here's what you can change in `index.html`:
-
-```javascript
-// Change number of cycles
-const totalCycles = 10;  // Change to 5, 20, etc.
-
-// Change timing (in seconds)
-const phaseDurations = { 
-    in: 4,    // Breathe in duration
-    hold: 4,  // Hold duration
-    out: 6    // Breathe out duration
-};
-
-// Change colors
-// Search for color hex values: #2196f3, #fbc02d, #4caf50
-```
-
-Then commit your changes!
-
-## 📝 License
-
-MIT License - Feel free to use, modify, and share!
-
-See [LICENSE](LICENSE) for details.
-
-## 🤝 Contributing
-
-Want to improve the app?
-
-1. Fork the repository
-2. Create a branch (`git checkout -b feature/improvement`)
-3. Make your changes
-4. Commit (`git commit -am 'Add improvement'`)
-5. Push (`git push origin feature/improvement`)
-6. Open a Pull Request
-
-## 📞 Support
-
-Having issues?
-
-1. **Refresh the page** - clears any stuck state
-2. **Try a different browser** - some browsers work better
-3. **Check browser console** - press F12 to debug
-4. **Clear cache** - if it's not updating
-
-## 🙏 Acknowledgments
-
 Built with ❤️ for mindfulness and well-being.
 
 Inspired by the 4-4-6 breathing technique used in relaxation therapy and meditation.
@@ -205,7 +105,7 @@ Inspired by the 4-4-6 breathing technique used in relaxation therapy and meditat
 **Ready to breathe? Visit the app now!**
 
 ### Quick Links
-- 🌐 **Live App**: https://yourusername.github.io/breathing-app
+- 🌐 **Live App**: https://tuner5419.github.io/breathing-app/
 - 📖 **How to Use**: See above
 - 💬 **Issues**: Create an issue on GitHub
 - ⭐ **Like it?** Star the repository!
