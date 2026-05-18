@@ -17,7 +17,7 @@ A guided breathing exercise web app that runs on any device - iPhone, Android, d
 ##  Quick Start
 
 ### Use Online
-Simply visit: **https://f8m2f2gdbg-ui.github.io/breathing-app**
+Simply visit: **https://tuner5419.github.io/breathing-app**
 
 Then:
 1. Click **"Start Exercise"**
